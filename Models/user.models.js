@@ -15,6 +15,11 @@ const UserShema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    Roll:{
+        type:String,
+        enum:["Admin", "User"],
+        default:"User"
+    }
   },
   { timestamps: true }
 );
