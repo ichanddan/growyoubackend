@@ -1,6 +1,7 @@
 import express from 'express'
-import { Roll, login, signup } from '../Controller/user.controller.js'
+import { Profile, login, signup } from '../Controller/user.controller.js'
 import { log } from '../Middleware/index.middleware.js'
+import { authToken } from '../Middleware/jwt.auth.js'
 const router = express.Router()
 
 router.get("/", (req,res)=>{
@@ -10,8 +11,8 @@ router.get("/", (req,res)=>{
 
 router.post("/signup", signup)
 router.post("/login",log, login)
+router.get("/profile", authToken , Profile)
 
-router.get("/login/:id", Roll)
 
 
 

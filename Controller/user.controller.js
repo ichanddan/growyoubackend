@@ -1,11 +1,8 @@
 import { User } from "../Models/user.models.js";
-import { genrateToken } from '../Middleware/jwt.auth.js'
-import bcrypt from 'bcrypt';
+import { genrateToken } from "../Middleware/jwt.auth.js";
+import bcrypt from "bcrypt";
 
-
-
-
-// Signup 
+// Signup
 
 const signup = async (req, res) => {
   try {
@@ -14,60 +11,50 @@ const signup = async (req, res) => {
     const response = await data_M.save();
     const paylod = {
       id: response.id,
-      name:response.FullName,
-      email: response.Email
-    }
-    const token = genrateToken(paylod)
-    res.status(201).json({ Message: "Signup succesfully" , token: token});
+      name: response.FullName,
+      email: response.Email,
+    };
+    const token = genrateToken(paylod);
+    res.status(201).json({ Message: "Signup succesfully", token: token });
   } catch (error) {
     console.log("Signup faild ", error);
-    res.status(500).json({ message: "Signup failed"});
+    res.status(500).json({ message: "Signup failed" });
   }
 };
 
-
-
-// Login 
+// Login
 
 const login = async (req, res) => {
   try {
-    const {Email,Password} =req.body;
-    const user = await User.findOne({Email});
-    const isMatchPassword = await bcrypt.compare(Password, user.Password)
-    if (!user || !isMatchPassword ) {
+    const { Email, Password } = req.body;
+    const user = await User.findOne({ Email });
+    const isMatchPassword = await bcrypt.compare(Password, user.Password);
+    if (!user || !isMatchPassword) {
       return res.status(408).json({ message: " Wrong Email or Password " });
     }
     const paylod = {
       id: user.id,
-      name:user.FullName,
-      email: user.Email
-    }
-    const token = genrateToken(paylod)
+      name: user.FullName,
+      email: user.Email,
+    };
+    const token = genrateToken(paylod);
     res.status(201).json({ message: "Login succesfully", token: token });
   } catch (error) {
     console.log("Login faild ", error);
-    res.status(500).json({ message: "Login failed"});
+    res.status(500).json({ message: "Login failed" });
   }
 };
 
-
-
-
-
-
-
-
-
-const Roll = async (req, res) => {
+const Profile = async (req, res) => {
   try {
-    const id = req.params.id;
-    if (id == "Admin" || id == "User") {
-      const Data = await User.find({ Roll: id });
-      res.status(400).json(Data);
-    }
+    const data = req.user;
+    const userId = data.id;
+    const user = await User.findById(userId);
+    res.status(201).json({user: user})
   } catch (error) {
-    console.log("Roll not find ", error);
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export { signup, login, Roll};
+export { signup, login, Profile };
