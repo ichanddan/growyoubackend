@@ -9,7 +9,7 @@ router.get("/", (req,res)=>{
 
 
 router.post("/signup", signup)
-router.get("/login",log, login)
+router.post("/login",log, login)
 
 router.get("/login/:id", Roll)
 
