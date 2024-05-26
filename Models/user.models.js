@@ -18,8 +18,8 @@ const UserShema = new mongoose.Schema(
     },
     Roll:{
         type:String,
-        enum:["Admin", "User"],
-        default:"User"
+        enum:["admin", "user","ceo", "cto", "team"],
+        default:"user"
     }
   },
   { timestamps: true }

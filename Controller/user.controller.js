@@ -45,6 +45,8 @@ const login = async (req, res) => {
   }
 };
 
+
+// Profile
 const Profile = async (req, res) => {
   try {
     const data = req.user;
@@ -57,4 +59,25 @@ const Profile = async (req, res) => {
   }
 };
 
-export { signup, login, Profile };
+
+// userType
+const userType = async (req, res) => {
+  try {
+    const UserT = req.params.id;
+    if (UserT === "admin" || UserT === "ceo" || UserT === "cto" || UserT === "team") {
+      const Data = await User.find({ Roll: UserT });
+      console.log(Data)
+      res.status(200).json({ message: "Data fetched successfully", data: Data });
+      console.log("Data fetched");
+    } else {
+      res.status(400).json({ message: "Invalid user type" });
+      console.log("User Type not found");
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export { signup, login, Profile, userType };
