@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 app.use(bodyParser.json())
 app.use(cors({
-    origin:"https://growyou.vercel.app",
+    origin:"https://groyou.vercel.app/",
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
