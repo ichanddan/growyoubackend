@@ -66,7 +66,6 @@ const userType = async (req, res) => {
     const UserT = req.params.id;
     if (UserT === "admin" || UserT === "ceo" || UserT === "cto" || UserT === "team") {
       const Data = await User.find({ Roll: UserT });
-      console.log(Data)
       res.status(200).json({ message: "Data fetched successfully", data: Data });
       console.log("Data fetched");
     } else {
@@ -79,5 +78,17 @@ const userType = async (req, res) => {
   }
 };
 
+const userUpdate = async (req, res) => {
+  try {
+    const data = req.user;
+    const userId = data.id;
+    const { Address, Number, FullName } = req.body;
+    const response = await User.findByIdAndUpdate(userId, { Address, Number,FullName });
+    res.status(201).json({ message: "Update successfully", response });
+  } catch (error) {
+    console.error("Error update data:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
 
-export { signup, login, Profile, userType };
+export { signup, login, Profile, userType, userUpdate };

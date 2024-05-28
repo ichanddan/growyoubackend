@@ -20,6 +20,25 @@ const UserShema = new mongoose.Schema(
         type:String,
         enum:["admin", "user","ceo", "cto", "team"],
         default:"user"
+    },
+    Address:{
+      type:String
+    },
+    Number:{
+      type:Number
+    },
+    Image:{
+      type:String
+    },
+    isCEO:{
+      type:String
+    },
+    isCTO:{
+      type:String
+    },
+    isTeamType:{
+      type:String,
+      enum:["Frontend Developer","Full-Stack Developer","Android Developer"]
     }
   },
   { timestamps: true }
