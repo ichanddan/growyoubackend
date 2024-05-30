@@ -1,5 +1,6 @@
 import { User } from "../Models/user.models.js";
 import { genrateToken } from "../Middleware/jwt.auth.js";
+import { Contects } from "../Models/contect.models.js";
 import bcrypt from "bcrypt";
 
 // Signup
@@ -78,6 +79,8 @@ const userType = async (req, res) => {
   }
 };
 
+
+// user update
 const userUpdate = async (req, res) => {
   try {
     const data = req.user;
@@ -91,4 +94,21 @@ const userUpdate = async (req, res) => {
   }
 };
 
-export { signup, login, Profile, userType, userUpdate };
+// send custom meassage
+
+const contect = async (req, res) => {
+  try {
+    const data = req.body;
+    const data_M = new Contects(data);
+    const response = await data_M.save();
+    res.status(201).json({ message: "Message Send succesfully" });
+    console.log(response)
+  } catch (error) {
+    console.log("Message send faild", error);
+    res.status(500).json({ message: "Internal server problem" });
+  }
+};
+
+
+
+export { signup, login, Profile, userType, userUpdate, contect };
