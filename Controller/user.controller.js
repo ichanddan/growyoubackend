@@ -2,6 +2,7 @@ import { User } from "../Models/user.models.js";
 import { genrateToken } from "../Middleware/jwt.auth.js";
 import { Contects } from "../Models/contect.models.js";
 import bcrypt from "bcrypt";
+import { Blog } from "../Models/blog.models.js";
 
 // Signup
 
@@ -14,6 +15,7 @@ const signup = async (req, res) => {
       id: response.id,
       name: response.FullName,
       email: response.Email,
+      roll: response.Roll
     };
     const token = genrateToken(paylod);
     res.status(201).json({ Message: "Signup succesfully", token: token });
@@ -37,6 +39,7 @@ const login = async (req, res) => {
       id: user.id,
       name: user.FullName,
       email: user.Email,
+      roll: user.Roll
     };
     const token = genrateToken(paylod);
     res.status(201).json({ message: "Login succesfully", token: token });
@@ -109,6 +112,29 @@ const contect = async (req, res) => {
   }
 };
 
+// blog post
+
+const postBlog = async (req, res) => {
+  try {
+    const data = req.user;
+    const userId = data.id;
+    const UserData = await User.findById(userId);
+    if (UserData.Roll === "admin") {
+      const blogData = req.body;
+      blogData.Author = UserData.FullName;
+      blogData.AuthorImage = UserData.Image
+      const blogDataSave = new Blog(blogData);
+      const response = await blogDataSave.save();
+      res.status(201).json({ Message: "Data recieved", response });
+    } else {
+      res.status(201).json({ Message: "User is not admin" });
+    }
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ Message: "Internal Server Problem" });
+  }
+};
 
 
-export { signup, login, Profile, userType, userUpdate, contect };
+export { signup, login, Profile, userType, userUpdate, contect, postBlog };
