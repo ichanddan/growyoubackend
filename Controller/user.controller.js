@@ -136,5 +136,17 @@ const postBlog = async (req, res) => {
   }
 };
 
+// blog get
+const getBlog = async (req, res) =>{
+  try {
+    const blogData = await Blog.find();
+    res.status(201).json({ Message: "Data recieved", blogData });
+  } catch (error) {
+    console.log(error);
 
-export { signup, login, Profile, userType, userUpdate, contect, postBlog };
+    res.status(500).json({ Message: "Internal Server Problem" });
+  }
+}
+
+
+export { signup, login, Profile, userType, userUpdate, contect, postBlog, getBlog };
