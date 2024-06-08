@@ -39,6 +39,9 @@ const UserShema = new mongoose.Schema(
     isTeamType:{
       type:String,
       enum:["Frontend Developer","Full-Stack Developer","Android Developer"]
+    },
+    isTeamMeassage:{
+      type:String
     }
   },
   { timestamps: true }
